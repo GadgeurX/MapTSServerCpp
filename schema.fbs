@@ -1,0 +1,60 @@
+namespace packet;
+
+enum ActionType: short { DEFAULT, MOVE, ATTACK }
+table EntityId { id: uint; }
+union Target { EntityId, Position }
+
+table RegisterPacket {
+    login: string;
+    email: string;
+    password: string;
+}
+
+table SelectFirstTerritory {
+    id: uint;
+}
+
+table RequestAllTerritoryBoundaryPacket {
+}
+
+table TerritoryBoundary {
+    shape: [Position];
+}
+
+table AllTerritoryBoundaryPacket {
+    territories: [TerritoryBoundary];
+}
+
+table ActionPacket {
+    entityIds: [EntityId];
+    action: ActionType;
+    target: Target;
+    password: string;
+}
+
+table OkPacket {
+}
+
+table ErrorPacket {
+    code: short;
+    message: string;
+}
+
+table LoginPacket {
+    login: string;
+    password: string;
+}
+
+table Position {
+    x: int;
+    y: int;
+}
+
+
+union PacketType { LoginPacket, ActionPacket, OkPacket, ErrorPacket, RegisterPacket, SelectFirstTerritory, RequestAllTerritoryBoundaryPacket, AllTerritoryBoundaryPacket }
+
+table Packet {
+    data: PacketType;
+}
+
+root_type Packet;
